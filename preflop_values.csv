@@ -1,0 +1,10 @@
+Group,Hands
+1,"AA, AKs, KK, QQ, JJ"
+2,"AK, AQs, AJs, KQs, TT"
+3,"AQ, ATs, KJs, QJs, JTs, 99"
+4,"AJ, KQ, KTs, QTs, J9s, T9s, 98s, 88"
+5,"A9s - A2s, KJ, QJ, JT, Q9s, T8s, 97s, 87s, 77, 76s, 66"
+6,"AT, KT, QT, J8s, 86s, 75s, 65s, 55, 54s"
+7,"K9s - K2s, J9, T9, 98, 64s, 53s, 44, 43s, 33, 22"
+8,"A9, K9, Q9, J8, J7s, T8, 96s, 87, 85s, 76, 74s, 65, 54, 42s, 32s"
+9,All other hands not required above.

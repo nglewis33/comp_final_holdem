@@ -2,6 +2,7 @@
 
 import random
 import time
+import csv
 from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
@@ -34,6 +35,8 @@ class PokerProbabilitySimulator:
         init()  # Initialize colorama
         self.hand_counts = Counter()
         self.total_hands = 0
+        self.num_simulations = 0
+        self.num_players = 0
     
     def run_simulation(self, num_simulations=100000, num_players=4, show_progress=True):
         """Run poker hand simulations.
@@ -44,6 +47,10 @@ class PokerProbabilitySimulator:
             show_progress (bool): Whether to show progress updates
         """
         start_time = time.time()
+        
+        # Store simulation parameters
+        self.num_simulations = num_simulations
+        self.num_players = num_players
         
         if show_progress:
             print(f"{Fore.CYAN}Starting simulation of {num_simulations} hands with {num_players} players...{Style.RESET_ALL}")
@@ -148,6 +155,45 @@ class PokerProbabilitySimulator:
             
             print(f"{hand_type:<15} {count:<10} {simulated_prob:.3f}%{' ':<10} {theoretical_prob:.3f}%{' ':<10} {diff_str}")
     
+    def write_results_to_file(self, filename="poker_results.csv"):
+        """Write simulation results to a CSV file.
+        
+        Args:
+            filename (str): Output file name
+        """
+        simulated = self.get_probabilities()
+        
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            
+            # Write header information
+            writer.writerow(['Poker Hand Probability Simulation Results'])
+            writer.writerow([''])
+            writer.writerow(['Simulation Parameters'])
+            writer.writerow(['Number of Games', self.num_simulations])
+            writer.writerow(['Number of Players', self.num_players])
+            writer.writerow(['Total Hands Evaluated', self.total_hands])
+            writer.writerow([''])
+            
+            # Write hand counts
+            writer.writerow(['Hand Counts'])
+            writer.writerow(['Hand Type', 'Count'])
+            for hand_type in HandEvaluator.HAND_RANKINGS:
+                count = self.hand_counts.get(hand_type, 0)
+                writer.writerow([hand_type, count])
+            writer.writerow([''])
+            
+            # Write probability table
+            writer.writerow(['Probability Table'])
+            writer.writerow(['Hand Type', 'Simulated %', 'Theoretical %', 'Difference'])
+            for hand_type in HandEvaluator.HAND_RANKINGS:
+                simulated_prob = simulated.get(hand_type, 0)
+                theoretical_prob = self.THEORETICAL_PROBABILITIES.get(hand_type, 0)
+                diff = simulated_prob - theoretical_prob
+                writer.writerow([hand_type, f"{simulated_prob:.4f}", f"{theoretical_prob:.4f}", f"{diff:+.4f}"])
+        
+        print(f"\nDetailed results written to {filename}")
+    
     def plot_results(self, filename="poker_probabilities.png"):
         """Plot the simulation results and save to a file.
         
@@ -212,8 +258,10 @@ def main():
                         help='Number of players in each hand')
     parser.add_argument('--no-plot', action='store_true',
                         help='Disable plotting of results')
-    parser.add_argument('--output', type=str, default='poker_probabilities.png',
+    parser.add_argument('--output-image', type=str, default='poker_probabilities.png',
                         help='Output file name for plot')
+    parser.add_argument('--output-csv', type=str, default='poker_results.csv',
+                        help='Output file name for CSV results')
     
     args = parser.parse_args()
     
@@ -224,10 +272,13 @@ def main():
     # Print results
     simulator.print_results()
     
+    # Write results to file
+    simulator.write_results_to_file(filename=args.output_csv)
+    
     # Plot results if enabled
     if not args.no_plot:
         try:
-            simulator.plot_results(filename=args.output)
+            simulator.plot_results(filename=args.output_image)
         except ImportError:
             print(f"\n{Fore.YELLOW}Warning: matplotlib not installed. Skipping plot generation.{Style.RESET_ALL}")
             print("To install matplotlib, run: pip install matplotlib")

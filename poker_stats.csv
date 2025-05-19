@@ -1,0 +1,32 @@
+Poker Hand Probability Simulation Results,,,,
+,,,,
+Simulation Parameters,,,,
+Number of Games,1000000,,,
+Number of Players,4,,,
+Total Hands Evaluated,4000000,,,
+,,,,
+Hand Counts,,,,
+Hand Type,Count,,,
+Royal Flush,125,,,
+Straight Flush,1061,,,
+Four of a Kind,6697,,,
+Full House,104099,,,
+Flush,121029,,,
+Straight,184895,,,
+Three of a Kind,193248,,,
+Two Pair,942235,,,
+One Pair,1752463,,,
+High Card,694148,,,
+,,,,
+Probability Table,,,,
+Hand Type,Simulated %,Theoretical %,Difference,"diff, in %"
+Royal Flush,0.0031,0.0032,-0.0001,-3.125
+Straight Flush,0.0265,0.0279,-0.0014,-5.017921147
+Four of a Kind,0.1674,0.168,-0.0006,-0.357142857
+Full House,2.6025,2.6,0.0025,0.096153846
+Flush,3.0257,3.03,-0.0043,-0.141914191
+Straight,4.6224,4.62,0.0024,0.051948052
+Three of a Kind,4.8312,4.83,0.0012,0.02484472
+Two Pair,23.5559,23.5,0.0559,0.23787234
+One Pair,43.8116,43.8,0.0116,0.026484018
+High Card,17.3537,17.4,-0.0463,-0.266091954

@@ -30,17 +30,28 @@ python main.py
 You can customize the game with the following options:
 
 - `--mode`: Game mode ('manual' for human player, 'ai' for AI-only play)
+- `--agent-type`: Type of AI agent to use ('simple' or 'probability')
 - `--hands`: Number of hands to play
 - `--chips`: Starting chips for each player
 - `--small-blind`: Small blind amount
 - `--big-blind`: Big blind amount
 - `--players`: Number of players
+- `--show-information`: Show helpful hand information during play
 
 Example:
 
 ```
-python main.py --mode manual --hands 5 --players 4 --chips 2000
+python main.py --mode manual --hands 5 --players 4 --chips 2000 --show-information
 ```
+
+## Using Poker Probability Tables
+
+To make informed decisions in poker, it's recommended to reference established poker probability tables which can be found online. While playing, the game will show basic information like pot odds, but for accurate win probabilities at different stages (preflop, flop, turn, river), refer to these external resources.
+
+Useful poker probability resources:
+- Preflop hand charts - showing the relative strength of starting hands
+- Odds charts for common drawing hands (flush draws, straight draws, etc.)
+- Pot odds calculators
 
 ## Training an RL Agent
 
@@ -77,6 +88,7 @@ python train_rl_agent.py --episodes 5000 --opponents 3 --verbose
 - `agents/`: Agent implementations
   - `base_agent.py`: Base agent interface
   - `simple_agent.py`: Simple rule-based agent
+  - `probability_agent.py`: Heuristic-based agent using basic hand strength
   - `rl_agent.py`: Reinforcement learning agent
 - `main.py`: Main entry point for playing
 - `train_rl_agent.py`: Script for training RL agents
