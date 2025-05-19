@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
-from texas_holdem.card import Card
-from texas_holdem.evaluator import HandEvaluator
+import unittest
+import random
+import os
+import sys
+from colorama import init, Fore, Style
+
+# Add the parent directory to the path so we can import the modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from core.card import Card
+from core.deck import Deck
+from core.evaluator import HandEvaluator
+from core.game import TexasHoldemGame
+from core.player import AIPlayer
+from agents.simple_agent import SimpleAgent
+from agents.probability_agent import ProbabilityAgent
 
 def print_hand_details(name, hole_cards, community_cards):
     """Print details of a hand."""

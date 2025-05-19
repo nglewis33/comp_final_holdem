@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 
-import pandas as pd
+import argparse
 import re
 import json
-import itertools
 import csv
+import os
+import sys
+import itertools
+import pandas as pd
+
+# Add the parent directory to the path so we can import the modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from core.card import Card
 
 # Card ranks and suits from the codebase
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -193,8 +201,6 @@ def process_preflop_values(input_csv, output_csv):
 
 def main():
     """Parse command-line arguments and run the function."""
-    import argparse
-    
     parser = argparse.ArgumentParser(description='Expand poker hand notations in CSV file')
     parser.add_argument('input_csv', help='Path to the input CSV file')
     parser.add_argument('-o', '--output', default='expanded_preflop_hands.csv',

@@ -1,6 +1,6 @@
 import random
 from .base_agent import BaseAgent
-from texas_holdem.evaluator import HandEvaluator
+from core.evaluator import HandEvaluator
 
 class ProbabilityAgent(BaseAgent):
     """A poker agent that uses basic heuristics to make decisions."""

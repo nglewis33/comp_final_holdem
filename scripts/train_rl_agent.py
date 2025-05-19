@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import argparse
 import numpy as np
 from colorama import init, Fore, Style
 
-from texas_holdem.game import TexasHoldemGame
-from texas_holdem.player import AIPlayer
+# Add the parent directory to the path so we can import the modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from core.game import TexasHoldemGame
+from core.player import AIPlayer
 from agents.rl_agent import RLAgent
 from agents.simple_agent import SimpleAgent
 

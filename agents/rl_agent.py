@@ -1,7 +1,7 @@
 import random
 import numpy as np
 from .base_agent import BaseAgent
-from texas_holdem.evaluator import HandEvaluator
+from core.evaluator import HandEvaluator
 
 class RLAgent(BaseAgent):
     """A reinforcement learning agent for poker using the Bellman equation."""

@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 
 import sys
+import os
+import unittest
 from colorama import init, Fore, Style
 
-from texas_holdem.card import Card
-from texas_holdem.evaluator import HandEvaluator
-from texas_holdem.player import AIPlayer
-from texas_holdem.game import TexasHoldemGame
+# Add the parent directory to the path so we can import the modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from core.card import Card
+from core.evaluator import HandEvaluator
+from core.player import AIPlayer
+from core.game import TexasHoldemGame
 from agents.simple_agent import SimpleAgent
 
 

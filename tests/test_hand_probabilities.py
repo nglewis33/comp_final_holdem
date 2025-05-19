@@ -3,14 +3,20 @@
 import random
 import time
 import csv
+import os
+import sys
 from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
 from colorama import init, Fore, Style
+import unittest
 
-from texas_holdem.card import Card
-from texas_holdem.deck import Deck
-from texas_holdem.evaluator import HandEvaluator
+# Add the parent directory to the path so we can import the modules
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from core.card import Card
+from core.deck import Deck
+from core.evaluator import HandEvaluator
 
 class PokerProbabilitySimulator:
     """Simulates poker hands and calculates hand probabilities."""

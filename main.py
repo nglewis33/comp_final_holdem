@@ -5,8 +5,8 @@ import sys
 import argparse
 from colorama import init, Fore, Style
 
-from texas_holdem.game import TexasHoldemGame
-from texas_holdem.player import HumanPlayer, AIPlayer
+from core.game import TexasHoldemGame
+from core.player import HumanPlayer, AIPlayer
 from agents.simple_agent import SimpleAgent
 from agents.probability_agent import ProbabilityAgent
 
