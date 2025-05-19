@@ -138,7 +138,7 @@ class SimpleAgent(BaseAgent):
             return self._evaluate_preflop_hand(hole_cards)
         
         # Evaluate current hand
-        rank_idx, _, _ = HandEvaluator.evaluate_hand(hole_cards, community_cards)
+        rank_idx, _, _, _ = HandEvaluator.evaluate_hand(hole_cards, community_cards)
         
         # Map rank index to a strength value (0 is best, 9 is worst)
         # Invert and normalize to 0-1 scale

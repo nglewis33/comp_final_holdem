@@ -144,7 +144,7 @@ class RLAgent(BaseAgent):
         
         # 1. Hand strength
         if game_state['community_cards']:
-            rank_idx, _, _ = HandEvaluator.evaluate_hand(player.hole_cards, game_state['community_cards'])
+            rank_idx, _, _, _ = HandEvaluator.evaluate_hand(player.hole_cards, game_state['community_cards'])
             hand_strength = (9 - rank_idx) / 9.0  # Normalize to [0, 1]
         else:
             # Preflop hand evaluation

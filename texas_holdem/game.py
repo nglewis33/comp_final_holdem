@@ -315,35 +315,43 @@ class TexasHoldemGame:
         # Evaluate each player's hand
         player_hands = []
         for player in active_players:
-            rank_idx, hand_name, best_hand = HandEvaluator.evaluate_hand(player.hole_cards, self.community_cards)
-            player_hands.append((player, rank_idx, hand_name, best_hand))
+            hand_eval = HandEvaluator.evaluate_hand(player.hole_cards, self.community_cards)
+            rank_idx, hand_name, best_hand, tiebreakers = hand_eval
+            player_hands.append((player, rank_idx, hand_name, best_hand, tiebreakers))
         
-        # Sort by hand rank (lower index is better)
-        player_hands.sort(key=lambda x: x[1])
+        # Sort by hand strength using the compare_hands method
+        best_players = [player_hands[0]]
+        for hand in player_hands[1:]:
+            # Compare this hand to the current best hand
+            comparison = HandEvaluator.compare_hands(
+                (hand[1], hand[2], hand[3], hand[4]),  # rank_idx, name, best_hand, tiebreakers
+                (best_players[0][1], best_players[0][2], best_players[0][3], best_players[0][4])
+            )
+            
+            if comparison > 0:  # This hand is better than the current best
+                best_players = [hand]
+            elif comparison == 0:  # This hand ties with the current best
+                best_players.append(hand)
         
-        # Determine winners (there can be ties)
-        winners = [player_hands[0][0]]
-        best_rank = player_hands[0][1]
-        for player, rank, _, _ in player_hands[1:]:
-            if rank == best_rank:
-                winners.append(player)
-            else:
-                break
+        # Determine winners (players with the best hand)
+        winners = [player_info[0] for player_info in best_players]
         
         # Distribute the pot
         pot_amount = self.pots[0]["amount"]
         each_share = pot_amount // len(winners)
         remainder = pot_amount % len(winners)  # Any remainder goes to the first winner
         
-        print(f"\n{player_hands[0][0].name} has {player_hands[0][2]} ")
+        # Show the best hand
+        best_hand_name = best_players[0][2]
+        print(f"\n{winners[0].name} has {best_hand_name} ")
         
         for i, winner in enumerate(winners):
             if i == 0:
                 winner.add_to_stack(each_share + remainder)
-                print(f"{Fore.YELLOW}{winner.name} wins ${each_share + remainder} with {player_hands[0][2]}{Style.RESET_ALL}")
+                print(f"{Fore.YELLOW}{winner.name} wins ${each_share + remainder} with {best_hand_name}{Style.RESET_ALL}")
             else:
                 winner.add_to_stack(each_share)
-                print(f"{Fore.YELLOW}{winner.name} wins ${each_share} with {player_hands[0][2]}{Style.RESET_ALL}")
+                print(f"{Fore.YELLOW}{winner.name} wins ${each_share} with {best_hand_name}{Style.RESET_ALL}")
     
     def display_game_status(self):
         """Display the current game status."""
