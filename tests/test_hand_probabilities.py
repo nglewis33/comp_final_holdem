@@ -253,6 +253,67 @@ class PokerProbabilitySimulator:
         print(f"\nPlot saved to {filename}")
 
 
+class TestPokerProbabilities(unittest.TestCase):
+    """Unit tests for the PokerProbabilitySimulator."""
+    
+    def setUp(self):
+        """Set up for tests by creating a simulator and running a small simulation."""
+        self.simulator = PokerProbabilitySimulator()
+        # Run a smaller simulation for tests
+        self.simulator.run_simulation(num_simulations=10000, num_players=4, show_progress=False)
+    
+    def test_total_probability_sums_to_100(self):
+        """Test that all probabilities sum to 100%."""
+        probabilities = self.simulator.get_probabilities()
+        total_probability = sum(probabilities.values())
+        # Use assertAlmostEqual with a small delta for floating point comparison
+        self.assertAlmostEqual(total_probability, 100.0, delta=0.1)
+    
+    def test_hand_probabilities_match_theoretical(self):
+        """Test that simulated probabilities are close to theoretical probabilities."""
+        simulated = self.simulator.get_probabilities()
+        
+        # Define tolerance - how close simulated results should be to theoretical
+        # For smaller simulations, we need higher tolerance
+        tolerance = 1.0  # Allow 1% difference for a 10,000 hand simulation
+        
+        for hand_type, theoretical in self.simulator.THEORETICAL_PROBABILITIES.items():
+            if hand_type in simulated:
+                # Use assertAlmostEqual with delta for floating point comparisons
+                self.assertAlmostEqual(
+                    simulated[hand_type], 
+                    theoretical, 
+                    delta=tolerance,
+                    msg=f"Probability for {hand_type} ({simulated[hand_type]:.2f}%) differs too much from theoretical ({theoretical:.2f}%)"
+                )
+    
+    def test_rare_hands_have_low_probability(self):
+        """Test that rare hands like Royal Flush have appropriately low probabilities."""
+        probabilities = self.simulator.get_probabilities()
+        
+        # Royal flush should be very rare
+        self.assertLess(probabilities.get("Royal Flush", 0), 0.1)
+        
+        # Straight flush should be rare but more common than royal flush
+        self.assertLess(probabilities.get("Straight Flush", 0), 0.5)
+        
+        # Four of a kind should be uncommon
+        self.assertLess(probabilities.get("Four of a Kind", 0), 1.0)
+    
+    def test_common_hands_have_high_probability(self):
+        """Test that common hands have appropriately high probabilities."""
+        probabilities = self.simulator.get_probabilities()
+        
+        # One pair should be very common
+        self.assertGreater(probabilities.get("One Pair", 0), 40.0)
+        
+        # Two pair should be common
+        self.assertGreater(probabilities.get("Two Pair", 0), 20.0)
+        
+        # High card should be somewhat common
+        self.assertGreater(probabilities.get("High Card", 0), 15.0)
+
+
 def main():
     """Run the poker hand probability simulation."""
     # Parse command line arguments
@@ -268,8 +329,15 @@ def main():
                         help='Output file name for plot')
     parser.add_argument('--output-csv', type=str, default='poker_results.csv',
                         help='Output file name for CSV results')
+    parser.add_argument('--run-tests', action='store_true',
+                        help='Run unit tests instead of simulation')
     
     args = parser.parse_args()
+    
+    # Run tests if requested
+    if args.run_tests:
+        unittest.main(argv=['first-arg-is-ignored'])
+        return
     
     # Create simulator and run simulation
     simulator = PokerProbabilitySimulator()
