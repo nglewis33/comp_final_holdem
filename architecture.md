@@ -201,7 +201,7 @@ Implements:
 - Episode-based training with configurable parameters
 - Saving trained agents to files
 
-### Hand Expansion (`tests/expand_preflop_hands.py`)
+### Hand Expansion (`utils/expand_preflop_hands.py`)
 
 Used for:
 - Converting poker hand notations to specific card combinations
@@ -212,17 +212,17 @@ Used for:
 
 The test modules include:
 
-1. **Hand Evaluation Tests** (`tests/test_poker_hands.py`):
+1. **Hand Evaluation Tests** (`tests/integration/test_poker_hands.py`):
    - Tests for correct hand ranking
    - Tests for tiebreaker resolution
    - Tests for special cases
 
-2. **Probability Tests** (`tests/test_hand_probabilities.py`):
+2. **Probability Tests** (`tests/performance/test_hand_probabilities.py`):
    - Simulates large numbers of hands
    - Verifies hand probabilities match theoretical values
    - Creates charts of hand distribution
 
-3. **Integration Tests** (`tests/test_final.py`):
+3. **Integration Tests** (`tests/e2e/test_final.py`):
    - End-to-end tests of game mechanics
    - Verifies correct winner determination in complex scenarios
 

@@ -69,7 +69,7 @@ Useful poker probability resources:
 The project includes preflop hand values based on professional poker strategy. These values group hands into strength categories and are used by the enhanced probability agents to make better preflop decisions. The preflop hand values are stored in CSV format and can be expanded into specific card combinations using the provided utility:
 
 ```
-python tests/expand_preflop_hands.py preflop_values.csv
+python utils/expand_preflop_hands.py preflop_values.csv
 ```
 
 ## Training an RL Agent
@@ -118,7 +118,7 @@ python scripts/train_rl_agent.py --episodes 5000 --opponents 3 --verbose
   - `test_poker_hands.py`: Tests for hand evaluation
   - `test_hand_probabilities.py`: Tests for poker probabilities
   - `test_final.py`: Final integration tests
-  - `expand_preflop_hands.py`: Utility for expanding hand notations
+  - `expand_preflop_hands.py`: Utility for expanding hand notations (in `utils/` directory)
 - `main.py`: Main entry point for playing the game
 
 ## Extending with Custom Agents
